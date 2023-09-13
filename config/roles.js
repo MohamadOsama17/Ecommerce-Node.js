@@ -1,10 +1,3 @@
-// const appRoles = {
-//   'Admin': 113,
-//   'Editor': 112,
-//   'User': 111,
-// };
-
-
 const appRoles = {
   Admin: {
     'name': 'Admin',
