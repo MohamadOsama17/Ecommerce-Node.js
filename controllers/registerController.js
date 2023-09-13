@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const appRoles = require('../data/roles');
+const appRoles = require('../config/roles');
 const User = require('../models/user');
 const tokenUtils = require('../utils/generateToken');
 
