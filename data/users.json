@@ -1,0 +1,37 @@
+[
+  {
+    "username": "mohamad",
+    "password": "$2b$10$dVNcEE3AlQM.BI.e4H4LquImJPDZ53rYAQ9lPUF8hgVE6xlZzG7p6",
+    "roles": {
+      "User": 111
+    }
+  },
+  {
+    "username": "mohamad",
+    "password": "$2b$10$.UWLRrTZ8bmCEURgVvEKLO8Mnow5EMZRb9cKy7CN0nr.cRkEWHR.a",
+    "roles": {
+      "User": 111
+    }
+  },
+  {
+    "username": "mohamad",
+    "password": "$2b$10$ksQMs9yjs90XZttrBDnp0O2hrThjpgplMLmiU6iEFHHeaf7A1cJoK",
+    "roles": {
+      "User": 111
+    }
+  },
+  {
+    "username": "mohamad",
+    "password": "$2b$10$tl/rfz754h51tBu9SZJtEOlIAfko7fcysVR84O237fUIxtzcMELO6",
+    "roles": {
+      "User": 111
+    }
+  },
+  {
+    "username": "mohamad",
+    "password": "$2b$10$aYZovMo9ainMzIEYP32I4uEPbuLDunN0qjrcaWwMKvhsE7if9CrUm",
+    "roles": {
+      "User": 111
+    }
+  }
+]
