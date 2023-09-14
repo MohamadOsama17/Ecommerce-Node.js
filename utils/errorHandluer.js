@@ -10,18 +10,18 @@ const errorHaundler = (error, req, res, next) => {
     switch (error.name) {
       //jwt errors
       case 'TokenExpiredError':
+        return res.status(401).json({
+          "message": `Unauthorized, ${error.name}`,
+          "success": false,
+        });
+      case 'JsonWebTokenError':
         return res.status(403).json({
           "message": `Forbiden, ${error.name}`,
           "success": false,
         });
-      case 'JsonWebTokenError':
-        return res.status(401).json({
-          "message": `Unauthorized, ${error.name}`,
-          "success": false,
-        });
       case 'NotBeforeError':
-        return res.status(401).json({
-          "message": `Unauthorized, ${error.name}`,
+        return res.status(403).json({
+          "message": `Forbiden, ${error.name}`,
           "success": false,
         });
 
