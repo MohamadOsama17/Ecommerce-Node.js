@@ -124,4 +124,40 @@ const getAllProdcts = async (req, res, next) => {
   }
 }
 
-module.exports = { getProductById, deleteProduct, updateProduct, createProduct, getAllProdcts }
+const search = async (req, res, next) => {
+  try {
+    const searchQuery = req.query.q;
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+    if (!searchQuery) {
+      const totalDocs = await Product.countDocuments();
+      const pagination = pagenationResponse({ page, totalDocs, limit });
+      const products = await Product.find({}).limit(limit).skip((page - 1) * limit);
+      return res.status(200).json({
+        searchQuery,
+        products,
+        pagination,
+      })
+    }
+    const regexSearch = new RegExp(`.*${searchQuery}.*`, 'i');
+    const q = {
+      $or: [
+        { name: regexSearch },
+        { coverImage: regexSearch }
+      ]
+    };
+    const totalDocs = await Product.countDocuments(q);
+    const pagination = pagenationResponse({ page, totalDocs, limit });
+    const products = await Product.find(q).limit(limit).skip((page - 1) * limit);
+    
+    return res.status(200).json({
+      searchQuery,
+      products,
+      pagination,
+    })
+  } catch (error) {
+    return next(error)
+  }
+}
+
+module.exports = { getProductById, deleteProduct, updateProduct, createProduct, getAllProdcts, search }
