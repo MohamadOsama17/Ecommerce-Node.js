@@ -9,6 +9,7 @@ router.route('/')
   .get(productController.getAllProdcts)
   .post(verifyRole([appRoles.Admin, appRoles.Editor]), productController.createProduct);
 
+router.get('/search', productController.search);
 
 router.route('/:productId')
   .get(productController.getProductById)
