@@ -3,7 +3,7 @@ const verifyRole = (allowedRole) => {
     const { userRoles } = req;
     if (!userRoles) {
       return res.status(401).json({
-        'message': 'Unauthorized Access !',
+        'message': 'Unauthorized Access !, you dont have permission',
         "success": false,
       });
     }
@@ -11,7 +11,7 @@ const verifyRole = (allowedRole) => {
     const matchedRoles = allowedRole.map(e => userRoles.includes(e.code)).find(val => val === true);
     if (!matchedRoles) {
       return res.status(401).json({
-        'message': 'Unauthorized Access !',
+        'message': 'Unauthorized Access !, you dont have permission',
         "success": false,
       });
     }
