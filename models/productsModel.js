@@ -21,16 +21,19 @@ const productSchema = mongoose.Schema({
   price: {
     required: [true, 'Product price is required !'],
     min: [1, 'Product price should be 1 or greater !'],
-    type: [mongoose.Schema.Types.Number, 'Product price invalid !'],
+    type: mongoose.Schema.Types.Number,
+    cast: 'Product price invalid !',
   },
   quantity: {
-    type: [mongoose.Schema.Types.Number, 'Product quantity invalid !'],
+    type: Number,
+    cast: 'Product quantity invalid !',
     default: 1,
     min: [1, 'Product quantity should be 1 or greater !'],
   },
   coverImage: {
     required: [true, 'Product image is required !'],
-    type: [mongoose.Schema.Types.String, 'Invalid image type !'],
+    type: mongoose.Schema.Types.String,
+    cast: 'Invalid image type !',
   },
   images: {
     type: [[''], 'Product images should be array of string !'],

@@ -22,7 +22,9 @@ const orderSchema = mongoose.Schema(
     totalPrice: {
       required: [true, 'Total price must be provided !'],
       min: [1, 'Total price can not be less than 1 !'],
-      type: mongoose.Schema.Types.Number,
+      type: Number,
+      // cast: '{VALUE} is not a valid number',
+      cast: 'Total price is not a valid number',
     }
   }
 );
