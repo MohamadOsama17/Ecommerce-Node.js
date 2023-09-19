@@ -10,5 +10,7 @@ router.post('/', orderController.createNewOrder);
 
 router.get('/:orderId', orderController.getOrderById);
 
+router.patch('/:orderId', verifyRole([appRoles.Admin]), orderController.updateOrder)
+
 
 module.exports = router;
