@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const orderSchema = mongoose.Schema(
+const orderSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -25,10 +25,22 @@ const orderSchema = mongoose.Schema(
       type: Number,
       // cast: '{VALUE} is not a valid number',
       cast: 'Total price is not a valid number',
-    }
+    },
+    createdAt: {
+      type: mongoose.Schema.Types.Date,
+      default: Date.now,
+    },
+    updatedAt: mongoose.Schema.Types.Date,
   }
 );
 
+
+orderSchema.pre('save', function (next) {
+  this.updatedAt = new Date();
+  next();
+});
+
 const orderModel = mongoose.model('ORDER', orderSchema);
+
 
 module.exports = orderModel;
