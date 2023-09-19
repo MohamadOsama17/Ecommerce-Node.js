@@ -111,9 +111,28 @@ const getAllProdcts = async (req, res, next) => {
   try {
     const limit = parseInt(req.query.limit) || 10;
     const page = parseInt(req.query.page) || 1;
-    const totalDocs = await Product.countDocuments();
+    const maxPrice = parseFloat(req.query.maxPrice);
+    const minPrice = parseFloat(req.query.minPrice);
+
+    const sortField = req.query.sort;
+    let order;
+    if (req.query.order && sortField) {
+      order = req.query.order === 'asc' ? 1 : -1
+      console.log(order);
+      console.log(sortField);
+    }
+
+    const options = {};
+    if (maxPrice) {
+      options.price = { $lte: maxPrice };
+    }
+    if (minPrice) {
+      options.price = { ...options.price, $gte: minPrice };
+    }
+
+    const totalDocs = await Product.countDocuments(options);
     const pagination = pagenationResponse({ page, totalDocs, limit });
-    const products = await Product.find({}).limit(limit).skip((page - 1) * limit);
+    const products = await Product.find(options).limit(limit).skip((page - 1) * limit).sort({ 'price': order });
     return res.status(200).json({
       success: true,
       products,
@@ -149,7 +168,7 @@ const search = async (req, res, next) => {
     const totalDocs = await Product.countDocuments(q);
     const pagination = pagenationResponse({ page, totalDocs, limit });
     const products = await Product.find(q).limit(limit).skip((page - 1) * limit);
-    
+
     return res.status(200).json({
       searchQuery,
       products,
