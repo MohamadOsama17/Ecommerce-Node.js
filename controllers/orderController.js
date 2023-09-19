@@ -79,5 +79,33 @@ const getOrderById = async (req, res, next) => {
 }
 
 
+const updateOrder = async (req, res, next) => {
+  try {
+    const orderId = req.params.orderId;
+    if (!isValidObjectId(orderId)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Can not find order !',
+      });
+    }
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(400).json({
+        success: false,
+        message: 'Can not find order !!',
+      });
+    }
+    order.address.city = 'updated';
+    const result = await order.save();
+    return res.status(200).json({
+      success: true,
+      'order': result,
+    })
+  } catch (error) {
+    next(error);
+  }
+}
 
-module.exports = { getAllOrders, createNewOrder, getOrderById }
+
+
+module.exports = { getAllOrders, createNewOrder, getOrderById, updateOrder }
