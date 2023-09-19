@@ -17,7 +17,7 @@ const generateAccessToken = (userData) => {
   try {
     const rolesCodeArr = roles.map((role) => role.code);
     const payload = { userId: _id, username, roles: rolesCodeArr };
-    const accessToken = jwt.sign({ UserInfo: payload }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+    const accessToken = jwt.sign({ UserInfo: payload }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15h' });
     return accessToken;
   } catch (error) {
     console.log(`Error in generate access token : ${error}`);
