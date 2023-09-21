@@ -3,11 +3,38 @@ const Order = require('../models/orderModel');
 const pagenationResponse = require('../response/pagenationResponse');
 const userResponse = require('../response/userResponse');
 
+
+
+
+//ssasqwde?sort=[date_asc, date_desc, price_asc, price_desc]
+function getOrdersSortOptions(sortValue) {
+  switch (sortValue) {
+    case 'date_asc':
+      return { 'createdAt': 1 };
+    case 'date_desc':
+      return { 'createdAt': -1 };
+    case 'price_asc':
+      return { 'totalPrice': 1 };
+    case 'price_desc':
+      return { 'totalPrice': -1 };
+    default:
+      return {};
+  }
+}
+
 const getAllOrders = async (req, res, next) => {
   try {
     const page = parseInt(req.query?.page) || 1;
     const limit = parseInt(req.query?.limit) || 10;
     const skip = (page - 1) * limit;
+
+    const sortKey = req.query.sort;
+    let sortOption;
+    if (sortKey) {
+      sortOption = getOrdersSortOptions(sortKey);
+    }
+
+
     const totalDocs = await Order.countDocuments();
     const pagination = pagenationResponse({
       page,
@@ -15,7 +42,7 @@ const getAllOrders = async (req, res, next) => {
       totalDocs,
     });
 
-    const orders = await Order.find({}).skip(skip).limit(limit).populate('user');
+    const orders = await Order.find({}).skip(skip).limit(limit).populate('user').sort(sortOption);
 
     res.status(200).json({
       'success': true,
