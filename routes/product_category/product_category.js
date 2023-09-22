@@ -4,6 +4,19 @@ const productCategoryController = require('../../controllers/productCategoryCont
 const verifyRole = require('../../middlewares/authroizeRole');
 
 
-router.post('/', verifyRole([appRoles.Admin]), productCategoryController.createCategory);
+router.route('/')
+  .post(verifyRole([appRoles.Admin]), productCategoryController.createCategory)
+  .get(productCategoryController.getCategories);
+
+router.route('/:categoryId')
+  .put(
+    verifyRole([appRoles.Admin]),
+    productCategoryController.updateCategory
+  )
+  .delete(
+    verifyRole([appRoles.Admin]),
+    productCategoryController.deleteCategory
+  )
+  .get(productCategoryController.getCategoryById);
 
 module.exports = router;
