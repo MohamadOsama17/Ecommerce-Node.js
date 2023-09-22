@@ -5,6 +5,30 @@ const formatMongooseValidationErrors = (error) => {
   return typeof result === 'string' ? result : result.message;
 }
 
+
+function handleMongoError(error) {
+  switch (error.code) {
+    case 11000:
+      const errorAt = Object.keys(error.keyPattern)[0];
+      return errorAt ? `${errorAt} is already exist !` : 'Data duplicated !';
+    case 12000:
+      // Handle unique key constraint violation in a sharded cluster
+      console.error('Sharded unique key constraint violation:', error.message);
+      // You can provide a custom error message or response here
+      break;
+    case 121:
+      // Handle snapshot too old error (for replica sets)
+      console.error('Snapshot too old error:', error.message);
+      // You can provide a custom error message or response here
+      break;
+    // Handle other MongoDB error codes as needed
+    default:
+      console.error('MongoDB Error:', error.message);
+    // Handle other MongoDB errors
+  }
+
+}
+
 const errorHaundler = (error, req, res, next) => {
   try {
     switch (error.name) {
@@ -30,6 +54,13 @@ const errorHaundler = (error, req, res, next) => {
         const errorMessages = formatMongooseValidationErrors(error);
         return res.status(400).json({
           'message': errorMessages,
+          'success': false,
+        });
+
+      case 'MongoServerError':
+        const errorMessage = handleMongoError(error)
+        return res.status(400).json({
+          'message': errorMessage,
           'success': false,
         })
 
