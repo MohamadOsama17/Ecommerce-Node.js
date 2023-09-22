@@ -10,6 +10,7 @@ const connectDB = require('./utils/dbConnection');
 
 const productRoute = require('./routes/product/product');
 const orderRoute = require('./routes/order/order');
+const categoryRoute = require('./routes/product_category/product_category');
 
 const errorHaundler = require('./utils/errorHandluer');
 
@@ -42,6 +43,7 @@ app.use('/refreshToken', require('./routes/refresh_token/refresh_token'))
 // Protected Routes
 app.use('/product', authenticateToken, productRoute);
 app.use('/order', authenticateToken, orderRoute);
+app.use('/category', authenticateToken, categoryRoute)
 
 
 // Not Found Handler
