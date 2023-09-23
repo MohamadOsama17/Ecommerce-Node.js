@@ -1,4 +1,5 @@
 const { isValidObjectId } = require('mongoose');
+const Category = require('../models/categoryModel');
 const Product = require('../models/productsModel');
 const pagenationResponse = require('../response/pagenationResponse')
 
@@ -16,14 +17,14 @@ const getProductById = async (req, res, next) => {
     if (!isValidObjectId(productId)) {
       return res.status(404).json({
         success: false,
-        message: 'No product found related !qw'
+        message: 'No product found related !'
       });
     }
-    const product = await Product.findById(productId);
+    const product = await Product.findById(productId).populate('category');
     if (!product) {
       return res.status(404).json({
         success: false,
-        message: 'No product found related wq!'
+        message: 'No product found related !'
       });
     }
     return res.status(200).json({ product });
@@ -34,9 +35,24 @@ const getProductById = async (req, res, next) => {
 
 const createProduct = async (req, res, next) => {
   try {
-    const { name, price, quantity, coverImage, images } = req.body;
-    const product = await Product.create({ name, price, quantity, coverImage, images });
-    res.status(201).json({
+    const { name, price, quantity, coverImage, images, categoryId } = req.body;
+
+    if (!categoryId) {
+      return res.status(400).json({
+        'success': false,
+        'message': 'Product category id is required !'
+      });
+    }
+    const category = await Category.findById(categoryId);
+    if (!category) {
+      return res.status(400).json({
+        'success': false,
+        'message': 'Product category id is required !'
+      });
+    }
+    const product = await Product.create({ name, price, quantity, coverImage, images, category: category._id });
+    await product.populate('category');
+    return res.status(201).json({
       'success': true,
       product,
     })
@@ -132,7 +148,7 @@ const getAllProdcts = async (req, res, next) => {
 
     const totalDocs = await Product.countDocuments(options);
     const pagination = pagenationResponse({ page, totalDocs, limit });
-    const products = await Product.find(options).limit(limit).skip((page - 1) * limit).sort({ 'price': order });
+    const products = await Product.find(options).limit(limit).skip((page - 1) * limit).sort({ 'price': order }).populate('category');
     return res.status(200).json({
       success: true,
       products,
@@ -167,7 +183,7 @@ const search = async (req, res, next) => {
     };
     const totalDocs = await Product.countDocuments(q);
     const pagination = pagenationResponse({ page, totalDocs, limit });
-    const products = await Product.find(q).limit(limit).skip((page - 1) * limit);
+    const products = await Product.find(q).limit(limit).skip((page - 1) * limit).populate('category');
 
     return res.status(200).json({
       searchQuery,

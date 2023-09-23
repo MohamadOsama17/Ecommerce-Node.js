@@ -38,6 +38,11 @@ const productSchema = mongoose.Schema({
   images: {
     type: [[''], 'Product images should be array of string !'],
     default: [],
+  },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ProductCategory',
+    required: [true, 'Product category id is required !']
   }
 });
 
