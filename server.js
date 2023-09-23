@@ -12,7 +12,7 @@ const productRoute = require('./routes/product/product');
 const orderRoute = require('./routes/order/order');
 const categoryRoute = require('./routes/category/category');
 
-const errorHaundler = require('./utils/errorHandluer');
+const errorHandler = require('./utils/errorHandluer');
 
 const app = express();
 
@@ -80,7 +80,7 @@ app.use((req, res, next) => {
 //   }
 // });
 
-app.use(errorHaundler)
+app.use(errorHandler)
 
 mongoose.connection.once('open', () => {
 
