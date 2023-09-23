@@ -33,6 +33,11 @@ const errorHaundler = (error, req, res, next) => {
   try {
     switch (error.name) {
       //jwt errors
+      case 'Not Found':
+        return res.status(404).json({
+          "message": error.message,
+          "success": false,
+        });
       case 'TokenExpiredError':
         return res.status(401).json({
           "message": `Unauthorized, ${error.name}`,
