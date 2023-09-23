@@ -10,7 +10,7 @@ const connectDB = require('./utils/dbConnection');
 
 const productRoute = require('./routes/product/product');
 const orderRoute = require('./routes/order/order');
-const categoryRoute = require('./routes/product_category/product_category');
+const categoryRoute = require('./routes/category/category');
 
 const errorHaundler = require('./utils/errorHandluer');
 
@@ -48,8 +48,8 @@ app.use('/category', authenticateToken, categoryRoute)
 
 // Not Found Handler
 app.use((req, res, next) => {
-  const error = new Error('Not Found');
-  error.status = 404;
+  const error = new Error('Not Found !');
+  error.name = 'Not Found';
   next(error);
 });
 
