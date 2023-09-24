@@ -30,16 +30,22 @@ const userSchema = mongoose.Schema({
       },
       {
         validator: (value) => {
-        var s =  value.map((role)=>{
-            return Object.values(appRoles).includes(role)
-          });
-          return s.includes(true);
+          const appRolesValues = Object.values(appRoles)
+          return isSubarray(value, appRolesValues);;
         },
         message: 'Incorrect user role !'
       },
     ]
   }
 });
+
+function isSubarray(subarray, array) {
+  return subarray.every(subItem =>
+    array.some(item =>
+      item.id === subItem.id && item.name === subItem.name
+    )
+  );
+}
 
 
 const userModel = mongoose.model('User', userSchema);
