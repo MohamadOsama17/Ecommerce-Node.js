@@ -49,4 +49,32 @@ const generateRefreshToken = (userData) => {
   }
 }
 
-module.exports = { generateRefreshToken, generateAccessToken }
+//email,code
+const generateForgetPassToken = (data) => {
+  if (!data) return;
+  const { email, code } = data;
+  if (!email || !code) {
+    throw Error('Something went wrong!');
+  }
+  try {
+    return jwt.sign({ email, code }, process.env.FORGET_PASS_SECRET, { expiresIn: '5m' });
+  } catch (error) {
+    throw error;
+  }
+}
+
+//email
+const generateResetPassToken = (data) => {
+  if (!data) return;
+  const { email } = data;
+  if (!email) {
+    throw Error('Something went wrong!');
+  }
+  try {
+    return jwt.sign({ email }, process.env.RESET_PASS_SECRET, { expiresIn: '5m' });
+  } catch (error) {
+    throw error;
+  }
+}
+
+module.exports = { generateRefreshToken, generateAccessToken, generateForgetPassToken, generateResetPassToken }
