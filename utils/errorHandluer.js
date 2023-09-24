@@ -39,6 +39,12 @@ const errorHaundler = (error, req, res, next) => {
           "success": false,
         });
       case 'TokenExpiredError':
+        if (req.url.includes('verify-forget-password-code')) {
+          return res.status(401).json({
+            'message': "Process duration is expired, please try again !",
+            'success': false
+          })
+        }
         return res.status(401).json({
           "message": `Unauthorized, ${error.name}`,
           "success": false,
