@@ -4,16 +4,16 @@ const User = require('../models/user')
 
 const login = async (req, res, next) => {
   try {
-    const { username, password } = req.body;
-    // check username and password
-    if (!username || !password) {
+    const { email, password } = req.body;
+    // check email and password
+    if (!email || !password) {
       return res.status(400).json({
-        'message': 'username and password required!',
+        'message': 'email and password required!',
         'success': false
       });
     }
-    // check if username exist
-    const foundUser = await User.findOne({ username: req.body.username });
+    // check if email exist
+    const foundUser = await User.findOne({ email: req.body.email });
     if (!foundUser) {
       return res.status(400).json({
         'message': 'no user found',

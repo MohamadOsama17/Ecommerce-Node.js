@@ -6,17 +6,17 @@ const generateAccessToken = (userData) => {
 
   if (!userData) return;
 
-  const { _id, roles, username } = userData;
+  const { _id, roles, email } = userData;
 
   const error = new Error('Something went wrong!');
   error.name = 'generateAccessToken';
 
-  if (!_id || !roles || !username) {
+  if (!_id || !roles || !email) {
     throw error;
   }
   try {
     const rolesCodeArr = roles.map((role) => role.code);
-    const payload = { userId: _id, username, roles: rolesCodeArr };
+    const payload = { userId: _id, email: email, roles: rolesCodeArr };
     const accessToken = jwt.sign({ UserInfo: payload }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15h' });
     return accessToken;
   } catch (error) {
@@ -28,17 +28,17 @@ const generateAccessToken = (userData) => {
 const generateRefreshToken = (userData) => {
   if (!userData) return;
 
-  const { _id, roles, username } = userData;
+  const { _id, roles, email } = userData;
 
   const error = new Error('Something went wrong!');
   error.name = 'generateRefreshToken';
 
-  if (!_id || !roles || !username) {
+  if (!_id || !roles || !email) {
     throw error;
   }
   try {
     const rolesCodeArr = roles.map((role) => role.code);
-    const payload = { userId: _id, username, roles: rolesCodeArr };
+    const payload = { userId: _id, email: email, roles: rolesCodeArr };
 
     const refreshToken = jwt.sign({ UserInfo: payload }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '15d' });
 

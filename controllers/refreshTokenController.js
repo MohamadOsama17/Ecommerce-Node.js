@@ -13,7 +13,7 @@ const refreshToken = async (req, res, next) => {
   try {
     const decodedData = verifyJwt.verifyRefreshToken(refreshToken);
     //search for the user in DB
-    const foundUser = await User.findOne({ 'username': decodedData.UserInfo.username });
+    const foundUser = await User.findOne({ 'email': decodedData.UserInfo.email });
     if (!foundUser) {
       return res.status(400).json({
         'message': 'No user found !',

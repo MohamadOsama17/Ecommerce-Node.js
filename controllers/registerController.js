@@ -6,20 +6,20 @@ const tokenUtils = require('../utils/generateToken');
 const registerUser = async (req, res, next) => {
   try {
     // check username and password
-    const { username, password } = req.body;
-    if (!username || !password) {
+    const { email, password } = req.body;
+    if (!email || !password) {
       return res.status(400).json({
-        'message': 'username and password required!',
+        'message': 'Email and password required!',
         'success': false
       });
     }
 
 
     // check if username unique
-    const foundUser = await User.findOne({ 'username': username });
+    const foundUser = await User.findOne({ 'email': email });
     if (foundUser) {
       return res.status(400).json({
-        'message': 'username already taken!',
+        'message': 'Email already taken!',
         'success': false
       });
     }
@@ -27,7 +27,7 @@ const registerUser = async (req, res, next) => {
     const encryptedPassword = await bcrypt.hash(password, 10);
     // store new user
     const userData = {
-      'username': username,
+      'email': email,
       'password': encryptedPassword,
       'roles': [appRoles.User]
     }
