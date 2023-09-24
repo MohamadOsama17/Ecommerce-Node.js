@@ -36,14 +36,15 @@ app.use(cors(corsOption));
 
 // Routes
 // Public Routes
-app.use('/register', require('./routes/register/register'));
-app.use('/login', require('./routes/login/login'));
-app.use('/refreshToken', require('./routes/refresh_token/refresh_token'))
+const apiVersion = process.env.API_VERSION;
+app.use(`${apiVersion}/register`, require('./routes/auth/register/register'));
+app.use(`${apiVersion}/login`, require('./routes/auth/login/login'));
+app.use(`${apiVersion}/refreshToken`, require('./routes/auth/refresh_token/refresh_token'))
 
 // Protected Routes
-app.use('/product', authenticateToken, productRoute);
-app.use('/order', authenticateToken, orderRoute);
-app.use('/category', authenticateToken, categoryRoute)
+app.use(`${apiVersion}/product`, authenticateToken, productRoute);
+app.use(`${apiVersion}/order`, authenticateToken, orderRoute);
+app.use(`${apiVersion}/category`, authenticateToken, categoryRoute)
 
 
 // Not Found Handler
