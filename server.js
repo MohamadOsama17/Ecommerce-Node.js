@@ -37,9 +37,8 @@ app.use(cors(corsOption));
 // Routes
 // Public Routes
 const apiVersion = process.env.API_VERSION;
-app.use(`${apiVersion}/register`, require('./routes/auth/register/register'));
-app.use(`${apiVersion}/login`, require('./routes/auth/login/login'));
-app.use(`${apiVersion}/refreshToken`, require('./routes/auth/refresh_token/refresh_token'))
+// Auth Routes
+app.use(`${apiVersion}/auth`, require('./routes/auth/auth-route'));
 
 // Protected Routes
 app.use(`${apiVersion}/product`, authenticateToken, productRoute);
