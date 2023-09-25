@@ -10,8 +10,8 @@ const configureStorage = (folderPath) => multer.diskStorage({
   }
 });
 
-const createUploader = (folderPath) => {
-  return multer({ storage: configureStorage(folderPath) });
+const createUploader = (folderPath, limits) => {
+  return multer({ storage: configureStorage(folderPath), limits: limits });
 }
 
 module.exports = createUploader;
