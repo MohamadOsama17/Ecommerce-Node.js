@@ -1,11 +1,11 @@
 
-function renameMongooseDocField(Schema, object) {
+function renameMongooseDocField(Schema, fieldsMaperObject) {
   Schema.set('toJSON', {
     virtuals: true,
     transform: (doc, ret) => {
-      Object.keys(object).map((key) => {
-        if (object[key] !== undefined) {
-          ret[object[key]] = ret[key];
+      Object.keys(fieldsMaperObject).map((key) => {
+        if (fieldsMaperObject[key] !== undefined) {
+          ret[fieldsMaperObject[key]] = ret[key];
         }
         delete ret[key];
       });
