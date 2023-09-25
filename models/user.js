@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
-const appRoles = require('../config/roles')
+const appRoles = require('../config/roles');
+const renameMongooseDocFields = require('../utils/renameMongoDocFields');
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, 'email is required !'],
@@ -39,6 +40,17 @@ const userSchema = mongoose.Schema({
   }
 });
 
+
+renameMongooseDocFields(userSchema,
+  {
+    '_id': 'id',
+    '__v': undefined,
+    'password': undefined,
+  }
+);
+
+
+
 function isSubarray(subarray, array) {
   return subarray.every(subItem =>
     array.some(item =>
@@ -51,3 +63,5 @@ function isSubarray(subarray, array) {
 const userModel = mongoose.model('User', userSchema);
 
 module.exports = userModel;
+
+
