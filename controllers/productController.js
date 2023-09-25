@@ -35,7 +35,16 @@ const getProductById = async (req, res, next) => {
 
 const createProduct = async (req, res, next) => {
   try {
-    const { name, price, quantity, coverImage, images, categoryId } = req.body;
+    const { name, description, price, quantity, categoryId } = req.body;
+
+    let image;
+    let images;
+
+    const imageFile = req.file;
+    if (imageFile) {
+      image = `${req.protocol}://${req.get('host')}/${imageFile.path}`;
+      console.log(image);
+    }
 
     if (!categoryId) {
       return res.status(400).json({
@@ -50,7 +59,7 @@ const createProduct = async (req, res, next) => {
         'message': 'Product category id is required !'
       });
     }
-    const product = await Product.create({ name, price, quantity, coverImage, images, category: category._id });
+    const product = await Product.create({ name, description, price, quantity, image, images, category: category._id });
     await product.populate('category');
     return res.status(201).json({
       'success': true,
