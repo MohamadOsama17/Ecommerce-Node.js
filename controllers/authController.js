@@ -9,7 +9,7 @@ const appRoles = require('../config/roles');
 
 const login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { email,password } = req.body;
     // check email and password
     if (!email || !password) {
       return res.status(400).json({
@@ -18,7 +18,7 @@ const login = async (req, res, next) => {
       });
     }
     // check if email exist
-    const foundUser = await UserModel.findOne({ email: req.body.email });
+    const foundUser = await UserModel.findOne({email });
     if (!foundUser) {
       return res.status(400).json({
         'message': 'Wrong credintials',
@@ -48,30 +48,18 @@ const login = async (req, res, next) => {
 const registerUser = async (req, res, next) => {
   try {
     // check username and password
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(400).json({
-        'message': 'Email and password required!',
-        'success': false
-      });
-    }
-
-
-    // check if username unique
-    const foundUser = await UserModel.findOne({ 'email': email });
-    if (foundUser) {
-      return res.status(400).json({
-        'message': 'Email already taken!',
-        'success': false
-      });
-    }
+    const { email, password, firstName, lastName, mobileNumber, address } = req.body;
     // encrypt password
     const encryptedPassword = await bcrypt.hash(password, 10);
     // store new user
     const userData = {
       'email': email,
       'password': encryptedPassword,
-      'roles': [appRoles.User]
+      'roles': [appRoles.User],
+      firstName,
+      lastName,
+      mobileNumber,
+      address,
     }
     const storedUser = await UserModel.create(userData);
     // generate tokens
@@ -87,11 +75,6 @@ const registerUser = async (req, res, next) => {
     });
 
   } catch (error) {
-    // console.log(error.name);
-    // res.status(500).json({
-    //   'message': `Internal server error ${error}`,
-    //   'success': false
-    // })
     return next(error);
   }
 }
@@ -229,27 +212,8 @@ const verifyForgetPassCode = async (req, res, next) => {
     next(error)
   }
 }
-// function isSubarray(subarray, array) {
-//   return subarray.every(subItem =>
-//     array.some(item =>
-//       item.id === subItem.id && item.name === subItem.name
-//     )
-//   );
-// }
 
 const resetPassword = async (req, res, next) => {
-
-  // const curr = [{ name: 'User', code: 112 },{name:'Admin',code:211}]
-  // const values = [
-  //   { name: 'Admin', code: 211 },
-  //   { name: 'Editor', code: 121 },
-  //   { name: 'User', code: 112 }
-  // ];
-
-  // const result =isSubarray(curr,values);
-
-  // res.send(`<h1>${result}</h1>`);
-
   try {
 
     const resetPasswordToken = req.headers.resetpasswordtoken;
