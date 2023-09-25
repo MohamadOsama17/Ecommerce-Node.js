@@ -11,6 +11,7 @@ const connectDB = require('./utils/dbConnection');
 const productRoute = require('./routes/product/product');
 const orderRoute = require('./routes/order/order');
 const categoryRoute = require('./routes/category/category');
+const path = require('path');
 
 const errorHandler = require('./utils/errorHandluer');
 
@@ -33,6 +34,8 @@ const corsOption = {
   optionSuccessStatus: 200,
 };
 app.use(cors(corsOption));
+
+app.use('/statics', express.static(path.join(__dirname, 'statics')));
 
 // Routes
 // Public Routes
