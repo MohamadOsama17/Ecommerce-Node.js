@@ -6,6 +6,12 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, 'email is required !'],
+    validate: {
+      validator: function (value) {
+        return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
+      },
+      message: 'Invalid email or password !',
+    },
     unique: true,
   },
   password: {
@@ -16,8 +22,6 @@ const userSchema = new mongoose.Schema({
   roles: {
     type: [Object],
     default: null,
-    // default: [appRoles.User],
-
     required: [true, 'User role is required !'],
     validate: [
       {
@@ -37,7 +41,36 @@ const userSchema = new mongoose.Schema({
         message: 'Incorrect user role !'
       },
     ]
-  }
+  },
+  firstName: {
+    type: mongoose.Schema.Types.String,
+    required: [true, 'First name is required !'],
+  },
+  lastName: {
+    type: mongoose.Schema.Types.String,
+    required: [true, 'Last name is required !'],
+  },
+  mobileNumber: {
+    type: mongoose.Schema.Types.String,
+    required: [true, 'Mobile number is required !'],
+    validate: {
+      validator: (value) => {
+        return /^(059|056)\d{7}$/.test(value);
+      },
+      message: 'Invalid phone number !',
+    }
+  },
+  address: {
+    'city': {
+      type: String,
+      required: [true, 'City is required !']
+    },
+    'state': {
+      type: String,
+      required: [true, 'State is required !'],
+    },
+    'street': String,
+  },
 });
 
 
