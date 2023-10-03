@@ -65,10 +65,10 @@ const productSchema = new mongoose.Schema({
   //   type: mongoose.Schema.Types.String,
   //   cast: 'Invalid image type !',
   // },
-  images: {
-    type: [[''], 'Product images should be array of string !'],
-    default: [],
-  },
+  // images: {
+  //   type: [[''], 'Product images should be array of string !'],
+  //   default: [],
+  // },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ProductCategory',
