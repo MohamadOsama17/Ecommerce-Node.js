@@ -10,18 +10,18 @@ const configureStorage = (folderPath) => multer.diskStorage({
     // console.log('destination-npm ----');
     // console.log(req.body);
     // console.log(uuid.v4());
-    const tempFolderName = Date.now().toString();
-    req.tempFolderName = tempFolderName;
+    // const tempFolderName = Date.now().toString();
+    // req.tempFolderName = tempFolderName;
 
-    const newFolderPath = path.join(folderPath,tempFolderName)
-    fs.mkdir(newFolderPath, (err) => {
-      if (err) {
-        console.error(`Error creating folder: ${err}`);
-      } else {
-        console.log(`Folder '${tempFolderName}' created successfully.`);
-      }
-    });
-    cb(null, `${folderPath}/${tempFolderName}`);
+    // const newFolderPath = path.join(folderPath,tempFolderName)
+    // fs.mkdir(newFolderPath, (err) => {
+    //   if (err) {
+    //     console.error(`Error creating folder: ${err}`);
+    //   } else {
+    //     console.log(`Folder '${tempFolderName}' created successfully.`);
+    //   }
+    // });
+    cb(null, folderPath);
   },
   filename: (req, file, cb) => {
     const fileName = `${Date.now()}-${file.originalname.split(' ').join('-')}`;
