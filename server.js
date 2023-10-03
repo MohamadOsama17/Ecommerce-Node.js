@@ -11,6 +11,7 @@ const connectDB = require('./utils/dbConnection');
 const productRoute = require('./routes/product/product');
 const orderRoute = require('./routes/order/order');
 const categoryRoute = require('./routes/category/category');
+const cartRoute = require('./routes/cart/cart_route');
 const path = require('path');
 
 const errorHandler = require('./utils/errorHandluer');
@@ -47,6 +48,7 @@ app.use(`${apiVersion}/auth`, require('./routes/auth/auth-route'));
 app.use(`${apiVersion}/product`, authenticateToken, productRoute);
 app.use(`${apiVersion}/order`, authenticateToken, orderRoute);
 app.use(`${apiVersion}/category`, authenticateToken, categoryRoute)
+app.use(`${apiVersion}/cart`, authenticateToken, cartRoute)
 
 
 // Not Found Handler
